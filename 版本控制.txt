@@ -1,0 +1,120 @@
+版本控制
+	版本控制介绍
+		个人开发改进迭代
+		团队协作
+	版本控制工具介绍
+
+	https://git-scm.com/
+
+
+git简介
+	git:
+		工作区: 写代码
+		暂存区: 临时存储 		git add
+		本地库: 历史版本 		git commit
+
+	git和代码托管中心
+		代码托管中心的任务: 维护远程库
+		局域网环境下
+			GitLab服务器
+		外网环境下
+			GitHub
+			码云
+
+	本地库和远程库
+		团队内部协作
+		跨团队协作
+
+
+Git命令行操作
+	本地库操作
+
+		本地库初始化
+			命令: 
+				git init 	初始化
+				ll .git/	查看配置文件
+			注意:
+				.git目录中存放的是本地库相关的子目录和文件,不要删除也不要乱修改
+			设置签名  
+				形式
+					用户名: 
+					Email地址: 
+				作用: 区分不同开发人员的身份
+				辨析: 这里设置的签名和登录远程库(代码托管中心)的账号密码没有任何关系
+				命令: 
+					级别:
+						项目级别/仓库级别 	git config 	
+								--查看 cat .git/config
+							仅在当前本地库范围内有效
+							git config user.name tom_pro
+							git config user.email goodMorning_pro@qq.com
+						系统用户级别 			git config --global 	
+								--查看 cd~ cat .gitconfig
+							系统指的是登录windows系统的用户,即登陆当前操作系统的用户范围
+							git config --global user.name tom_glb
+							git config --global user.email goodMorning_glb@qq.com
+						注意: 
+							就近原则: 项目级别优先于系统用户级别,二者都有时采用项目级别的签名
+							如果只有系统用户级别的签名,就以系统用户级别的签名为准
+							不允许二者都没有
+
+
+
+
+		基本操作
+			具体的版本控制的操作 p13
+				git status 		查看当前工作区,暂存区状态
+				git add <file> 				将工作区的新建和修改添加到暂存区
+				git  rm --cached <file> 	从缓存区删除
+				git commit <file> 			从缓存区提交到本地库
+					提交以后会要求输入信息
+						:set nu 	显示行号
+						i 			进入编辑模式 		输入信息
+						esc 		退出编辑模式
+						:wq 		写入并退出
+					或者直接使用 git commit -m "my second commit,modify <file>" <file>
+						就不用进入vim文本编辑器了
+
+			版本的历史记录查看
+				git log 	查看完整修改日志
+				git log --prety=oneline 	每一条日志只显示一行(完整HASH值)
+				git log --oneline 			每一条只显示一行,而且其HASH值只显示一部分,只显示过去的记录
+				git reflog 					比上一条命令多出需要移动的步数 HEAD@{<number>},所有的历史记录都可以显示
+			
+			前进后退历史版本(使用HEAD指针管理)
+				基于索引值进行操作
+					git reflog
+					git reset --hard <hash索引值>
+				使用^符号 --只能后退
+					git log --oneline
+					git reset --hard HEAD^^ 	几个^就回退几步
+				使用~符号
+					git reflog
+					git reset --hard HEAD~n 	回退n步
+
+
+			reset命令的三个参数对比
+				--soft 仅仅在本地库移动指针
+					不触碰
+						index file暂存区
+						working tree工作区
+					实质上是本地库回退,而暂存区和工作区没有动
+						本地文件没有改变
+						将所有更改的文件保留为“要提交的更改” 
+
+				--mixed  重置暂存区
+					不触碰
+						working tree工作区
+					实质上是暂存区和本地库同时回退,而工作区没有动
+						本地文件没有改变
+						已更改的文件将保留，但未标记为提交
+				
+				--hard
+						在本地库移动HEAD指针
+						重置暂存区
+						重置工作区
+					本地文件改变
+					对工作树中跟踪文件的任何更改，<commit>都将被丢弃
+
+		分支管理
+	远程库操作
