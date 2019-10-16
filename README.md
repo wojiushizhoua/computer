@@ -1,1 +1,1 @@
-# conputer
+# computer
