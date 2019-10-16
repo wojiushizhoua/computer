@@ -3,4 +3,8 @@ dsnwkd
 kdjenqd
 dnw
 aaaaaaaaaaa
+<<<<<<< HEAD
 master
+=======
+new_branch
+>>>>>>> 8db1b4b607a9c536ab79bebd06da518d98e358e1
